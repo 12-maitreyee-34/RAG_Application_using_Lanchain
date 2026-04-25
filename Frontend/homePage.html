@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easypaper - Research Paper Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ==================== AUTH PAGES ==================== */
+        .auth-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .auth-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ==================== HOME PAGE ==================== */
+        .home-container {
+            display: none;
+            background: #f5f5f5;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .home-container.active {
+            display: block;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .main-content {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .greeting {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .content-area {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .left-section {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .upload-section.compact {
+            padding: 20px;
+        }
+
+        .upload-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        .upload-section.compact .upload-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .upload-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .upload-section.compact .upload-title {
+            font-size: 16px;
+        }
+
+        .upload-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .btn-upload {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-upload:hover {
+            transform: translateY(-2px);
+        }
+
+        .paper-viewer {
+            display: none;
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .paper-viewer.active {
+            display: block;
+        }
+
+        .paper-header {
+            padding: 20px;
+            background: #f9f9f9;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .paper-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-close {
+            padding: 8px 16px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-close:hover {
+            background: #d32f2f;
+        }
+
+        .paper-content {
+            padding: 30px;
+            height: 600px;
+            overflow-y: auto;
+        }
+
+        .paper-preview {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px dashed #667eea;
+            text-align: center;
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Center upload when no paper */
+        .content-area.no-paper {
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+
+        .content-area.no-paper .upload-section {
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div class="auth-container hidden" id="loginPage">
+        <div class="auth-header">
+            <h1>Easypaper</h1>
+            <p>Welcome back! Please login to your account</p>
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <div class="auth-footer">
+            New user? <span class="auth-link" id="goToRegister">Create an account</span>
+        </div>
+    </div>
+
+    <!-- REGISTER PAGE -->
+    <div class="auth-container hidden" id="registerPage">
+        <div class="auth-header">
+            <h1>Easypaper</h1>
+            <p>Create your account to get started</p>
+        </div>
+        <form id="registerForm">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="registerName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="registerEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="registerPassword" placeholder="Create a password" required>
+            </div>
+            <button type="submit" class="btn-primary">Register</button>
+        </form>
+        <div class="auth-footer">
+            Already have an account? <span class="auth-link" id="goToLogin">Login here</span>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div class="home-container active" id="homePage">
+        <nav class="navbar">
+            <div class="logo">Easypaper</div>
+            <div class="profile-icon" id="profileIcon">U</div>
+        </nav>
+
+        <div class="main-content">
+            <h2 class="greeting" id="userGreeting">Hello, User!</h2>
+
+            <div class="content-area no-paper" id="contentArea">
+                <div class="left-section">
+                    <div class="upload-section" id="uploadSection">
+                        <div class="upload-icon">📄</div>
+                        <h3 class="upload-title">Upload Research Paper</h3>
+                        <p class="upload-description">Upload your research paper in PDF format to get started</p>
+                        <input type="file" id="fileInput" accept=".pdf" class="hidden">
+                        <button class="btn-upload" id="uploadBtn">Choose File</button>
+                    </div>
+                </div>
+
+                <div class="paper-viewer" id="paperViewer">
+                    <div class="paper-header">
+                        <span class="paper-name" id="paperName">No file selected</span>
+                        <button class="btn-close" id="closeBtn">✕ Close</button>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-preview">
+                            <h3>📄 Paper Preview</h3>
+                            <p>Your research paper will be displayed here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const loginPage = document.getElementById('loginPage');
+        const registerPage = document.getElementById('registerPage');
+        const homePage = document.getElementById('homePage');
+        const goToRegister = document.getElementById('goToRegister');
+        const goToLogin = document.getElementById('goToLogin');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const userGreeting = document.getElementById('userGreeting');
+        const profileIcon = document.getElementById('profileIcon');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInput = document.getElementById('fileInput');
+        const paperViewer = document.getElementById('paperViewer');
+        const paperName = document.getElementById('paperName');
+        const closeBtn = document.getElementById('closeBtn');
+        const contentArea = document.getElementById('contentArea');
+        const uploadSection = document.getElementById('uploadSection');
+
+        // Store user data
+        let currentUser = { name: "User", email: "user@example.com" };
+
+        // Navigation between login and register
+        goToRegister.addEventListener('click', () => {
+            loginPage.classList.add('hidden');
+            registerPage.classList.remove('hidden');
+        });
+
+        goToLogin.addEventListener('click', () => {
+            registerPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+        });
+
+        // Register
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            // Store user (in real app, send to backend)
+            currentUser = { name, email };
+            localStorage.setItem('user', JSON.stringify(currentUser));
+
+            // Go directly to home page after registration
+            registerPage.classList.add('hidden');
+            showHomePage();
+            registerForm.reset();
+        });
+
+        // Login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Check if user exists (in real app, verify with backend)
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                currentUser = JSON.parse(storedUser);
+                showHomePage();
+            } else {
+                alert('Please register first!');
+            }
+        });
+
+        // Show home page
+        function showHomePage() {
+            loginPage.classList.add('hidden');
+            homePage.classList.add('active');
+            
+            // Update greeting and profile
+            if (currentUser) {
+                userGreeting.textContent = `Hello, ${currentUser.name}!`;
+                profileIcon.textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+        }
+
+        // Upload file
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                // Show paper viewer
+                paperViewer.classList.add('active');
+                paperName.textContent = file.name;
+                
+                // Move upload to left and make compact
+                contentArea.classList.remove('no-paper');
+                uploadSection.classList.add('compact');
+            }
+        });
+
+        // Close paper viewer
+        closeBtn.addEventListener('click', () => {
+            paperViewer.classList.remove('active');
+            contentArea.classList.add('no-paper');
+            uploadSection.classList.remove('compact');
+            fileInput.value = '';
+            paperName.textContent = 'No file selected';
+        });
+
+        // Logout on profile click (optional)
+        profileIcon.addEventListener('click', () => {
+            if (confirm('Do you want to logout?')) {
+                homePage.classList.remove('active');
+                loginPage.classList.remove('hidden');
+                currentUser = null;
+                loginForm.reset();
+                // Reset home page
+                paperViewer.classList.remove('active');
+                contentArea.classList.add('no-paper');
+                uploadSection.classList.remove('compact');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easypaper - Login & Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ==================== AUTH PAGES ==================== */
+        .auth-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .auth-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div class="auth-container" id="loginPage">
+        <div class="auth-header">
+            <h1>Easypaper</h1>
+            <p>Welcome back! Please login to your account</p>
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <div class="auth-footer">
+            New user? <span class="auth-link" id="goToRegister">Create an account</span>
+        </div>
+    </div>
+
+    <!-- REGISTER PAGE -->
+    <div class="auth-container hidden" id="registerPage">
+        <div class="auth-header">
+            <h1>Easypaper</h1>
+            <p>Create your account to get started</p>
+        </div>
+        <form id="registerForm">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="registerName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="registerEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="registerPassword" placeholder="Create a password"
+                    required>
+            </div>
+            <button type="submit" class="btn-primary">Register</button>
+        </form>
+        <div class="auth-footer">
+            Already have an account? <span class="auth-link" id="goToLogin">Login here</span>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const loginPage = document.getElementById('loginPage');
+        const registerPage = document.getElementById('registerPage');
+        const goToRegister = document.getElementById('goToRegister');
+        const goToLogin = document.getElementById('goToLogin');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        // Navigation between login and register
+        goToRegister.addEventListener('click', () => {
+            loginPage.classList.add('hidden');
+            registerPage.classList.remove('hidden');
+        });
+
+        goToLogin.addEventListener('click', () => {
+            registerPage.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+        });
+
+        // Register
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            // Store user data in localStorage
+            const userData = { name, email, password };
+            localStorage.setItem('user', JSON.stringify(userData));
+
+            alert('Registration successful! Redirecting to home page...');
+
+            // Redirect to home page
+            window.location.href = 'homePage.html';
+        });
+
+        // Login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Get stored user data
+            const storedUser = localStorage.getItem('user');
+
+            if (storedUser) {
+                const userData = JSON.parse(storedUser);
+
+                // Check credentials
+                if (userData.email === email && userData.password === password) {
+                    alert('Login successful!');
+                    // Redirect to home page
+                    window.location.href = 'home.html';
+                } else {
+                    alert('Invalid email or password!');
+                }
+            } else {
+                alert('No account found. Please register first!');
+            }
+        });
+    </script>
+</body>
+
+</html>
