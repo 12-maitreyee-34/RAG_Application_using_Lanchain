@@ -1,7 +1,7 @@
 # Ignore Python virtual environment
 venv/
 .env
-
+env/
 # Other common ignores
 __pycache__/
 *.pyc
@@ -10,3 +10,4 @@ __pycache__/
 .vscode/
 
 /Documents/
+/Data/
