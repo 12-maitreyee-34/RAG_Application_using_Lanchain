@@ -1,5 +1,4 @@
 import os
-from db.database import Base, engine
 from RAG.ingestion import pdf_to_document, save_document, save_session
 
 # 1. Database is managed by Alembic now
@@ -31,6 +30,8 @@ else:
                 
                 print(f"Saved: {doc.title}")
                 print(f"Sections found: {len(doc.sections)}")
+                for s in doc.sections:
+                    print(f"    - {s['heading']:<25} ({len(s['content'].split())} words)")
                 
             except Exception as e:
                 print(f"Error processing {filename}: {e}")
